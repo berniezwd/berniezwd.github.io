@@ -15016,7 +15016,7 @@ div#bannerGroup {
   height: 76%;
   background: var(--anzhiyu-card-bg);
   background-size: cover;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
   border: var(--style-border);
   border-radius: 12px;
   overflow: hidden;
