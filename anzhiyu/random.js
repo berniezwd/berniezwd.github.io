@@ -1,1 +1,1 @@
-var posts=["2023/04/03/React18与Vue3的异同点/","2023/04/03/React与TS结合开发/","2023/04/14/hello-world/","2022/07/16/Vite从零单排/"];function toRandomPost(){pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);};
+var posts=["2023/04/03/React与TS结合开发/","2023/04/03/React18与Vue3的异同点/","2022/07/16/Vite从零单排/","2023/04/14/hello-world/"];function toRandomPost(){pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);};
