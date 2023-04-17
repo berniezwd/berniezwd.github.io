@@ -2196,10 +2196,6 @@ figure.highlight pre .javascript .function {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 1.15em;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 #article-container .highlight-tools .copy-notice {
   position: absolute;
@@ -2226,15 +2222,11 @@ figure.highlight pre .javascript .function {
 #article-container .highlight-tools .copy-button:hover {
   color: #3b70fc;
 }
-#article-container .gutter {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+#article-container .gutter,
 #article-container .gist table {
   width: auto;
 }
+#article-container .gutter td,
 #article-container .gist table td {
   border: none;
 }
@@ -6106,10 +6098,6 @@ h1.page-title + .tag-cloud-list {
   font-weight: bold;
   line-height: 1.5;
   white-space: nowrap;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 #post .post-copyright .anzhiyufont.anzhiyu-icon-copyright {
   position: absolute;
@@ -6245,7 +6233,6 @@ h1.page-title + .tag-cloud-list {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-user-select: none;
 }
 .post-tools .post-tools-left {
   white-space: nowrap;
@@ -10643,7 +10630,6 @@ body[data-type="about"] #web_bg {
   height: 62.5px;
   transform: translate(-25%, -50%) scale(0.5);
   transition: all 0.5s;
-  user-select: none;
   overflow: hidden;
 }
 
@@ -10750,7 +10736,6 @@ body[data-type="about"] #web_bg {
   box-shadow: var(--anzhiyu-shadow-border);
   position: relative;
   overflow: hidden;
-  user-select: none;
 }
 
 .shapes {
@@ -10836,7 +10821,6 @@ body[data-type="about"] #web_bg {
   margin: -10px 0 0 -10px;
   border-radius: 50%;
   will-change: transform;
-  user-select: none;
   pointer-events: none;
   z-index: 3;
 }
@@ -12415,7 +12399,6 @@ details.folding-tag > summary {
   border-radius: 14px !important;
   box-shadow: var(--anzhiyu-shadow-border);
   color: var(--font-color) !important;
-  user-select: none;
 }
 details.folding-tag > summary::marker {
   color: var(--anzhiyu-main);
@@ -14303,7 +14286,6 @@ i.bber-gotobb {
   overflow: hidden;
   text-overflow: ellipsis;
   transition: 0.3s;
-  user-select: none;
 }
 
 #nav-music .aplayer .aplayer-info .aplayer-controller {
@@ -17084,7 +17066,6 @@ b, strong {
   border-radius: 12px;
   z-index: 10002;
   border: var(--style-border);
-  user-select: none;
 }
 #rightMenu a {
   color: var(--anzhiyu-fontcolor);
@@ -17218,7 +17199,6 @@ body[data-type="room"] #page .page-title {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  user-select: none;
   transform-style: preserve-3d;
   -webkit-tap-highlight-color: transparent;
 }
