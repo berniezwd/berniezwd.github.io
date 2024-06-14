@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>工具箱</title>
+      <link href="/2024/06/14/%E8%B5%84%E6%BA%90%E9%9B%86%E5%90%88/"/>
+      <url>/2024/06/14/%E8%B5%84%E6%BA%90%E9%9B%86%E5%90%88/</url>
+      
+        <content type="html"><![CDATA[<h2 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h2><p> <a href="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202406141648957.ttf">YaHei Consolas Hybrid</a></p><img src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202406141654574.png" alt="image-20240614165400531" style="zoom: 50%;" /><h2 id="资源网站"><a href="#资源网站" class="headerlink" title="资源网站"></a>资源网站</h2><p><a href="https://link.juejin.cn/?target=https://github.com/hepengwei/visualization-collection">前端视觉效果集合</a></p><p><a href="https://gradient.shapefactory.co/">渐变神器Gradient</a></p><p><a href="https://glassgenerator.netlify.app/">CSS 玻璃风格神器</a></p><p><a href="https://bgjar.com/">背景生成器</a></p><p><a href="https://link.juejin.cn/?target=https://tinypng.com/">在线图片压缩</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 工具类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 工具类 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>OpenId与UnionId的区别</title>
       <link href="/2024/05/30/OpenId%E4%B8%8EUnionId/"/>
       <url>/2024/05/30/OpenId%E4%B8%8EUnionId/</url>
@@ -745,31 +770,6 @@
     
     
     <entry>
-      <title>window下右键cmd终端菜单</title>
-      <link href="/2021/09/16/window%E7%B3%BB%E7%BB%9F%E5%8F%B3%E9%94%AEcmd%E7%BB%88%E7%AB%AF%E8%8F%9C%E5%8D%95/"/>
-      <url>/2021/09/16/window%E7%B3%BB%E7%BB%9F%E5%8F%B3%E9%94%AEcmd%E7%BB%88%E7%AB%AF%E8%8F%9C%E5%8D%95/</url>
-      
-        <content type="html"><![CDATA[<div class="note info simple"><p>桌面新建记事本文件，添加以下文字，将后缀改为 .reg 双击运行即可。</p></div><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Directory</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span>]</span><br><span class="line">@=&quot;cmd&quot;</span><br><span class="line">&quot;Icon&quot;=&quot;cmd.exe&quot;</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Directory</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span><span class="keyword">\command</span>]</span><br><span class="line">@=&quot;cmd.exe /s /k pushd &quot;<span class="comment">%V&quot;&quot;</span></span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Directory</span><span class="keyword">\Background</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span>]</span><br><span class="line">@=&quot;cmd&quot;</span><br><span class="line">&quot;Icon&quot;=&quot;cmd.exe&quot;</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Directory</span><span class="keyword">\Background</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span><span class="keyword">\command</span>]</span><br><span class="line">@=&quot;cmd.exe /s /k pushd <span class="keyword">\&quot;</span><span class="comment">%V\&quot;&quot;</span></span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Drive</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span>]</span><br><span class="line">@=&quot;cmd&quot;</span><br><span class="line">&quot;Icon&quot;=&quot;cmd.exe&quot;</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Drive</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span><span class="keyword">\command</span>]</span><br><span class="line">@=&quot;cmd.exe /s /k pushd <span class="keyword">\&quot;</span><span class="comment">%V\&quot;&quot;</span></span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\LibraryFolder</span><span class="keyword">\background</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span>]</span><br><span class="line">@=&quot;cmd&quot;</span><br><span class="line">&quot;Icon&quot;=&quot;cmd.exe&quot;</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\LibraryFolder</span><span class="keyword">\background</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span><span class="keyword">\command</span>]</span><br><span class="line">@=&quot;cmd.exe /s /k pushd <span class="keyword">\&quot;</span><span class="comment">%V\&quot;&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> window </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 右键cmd </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>项目搭建规范</title>
       <link href="/2021/09/16/vue3-admin%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/"/>
       <url>/2021/09/16/vue3-admin%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</url>
@@ -789,6 +789,31 @@
             <tag> Vue </tag>
             
             <tag> 项目搭建规范 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>window下右键cmd终端菜单</title>
+      <link href="/2021/09/16/window%E7%B3%BB%E7%BB%9F%E5%8F%B3%E9%94%AEcmd%E7%BB%88%E7%AB%AF%E8%8F%9C%E5%8D%95/"/>
+      <url>/2021/09/16/window%E7%B3%BB%E7%BB%9F%E5%8F%B3%E9%94%AEcmd%E7%BB%88%E7%AB%AF%E8%8F%9C%E5%8D%95/</url>
+      
+        <content type="html"><![CDATA[<div class="note info simple"><p>桌面新建记事本文件，添加以下文字，将后缀改为 .reg 双击运行即可。</p></div><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Directory</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span>]</span><br><span class="line">@=&quot;cmd&quot;</span><br><span class="line">&quot;Icon&quot;=&quot;cmd.exe&quot;</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Directory</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span><span class="keyword">\command</span>]</span><br><span class="line">@=&quot;cmd.exe /s /k pushd &quot;<span class="comment">%V&quot;&quot;</span></span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Directory</span><span class="keyword">\Background</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span>]</span><br><span class="line">@=&quot;cmd&quot;</span><br><span class="line">&quot;Icon&quot;=&quot;cmd.exe&quot;</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Directory</span><span class="keyword">\Background</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span><span class="keyword">\command</span>]</span><br><span class="line">@=&quot;cmd.exe /s /k pushd <span class="keyword">\&quot;</span><span class="comment">%V\&quot;&quot;</span></span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Drive</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span>]</span><br><span class="line">@=&quot;cmd&quot;</span><br><span class="line">&quot;Icon&quot;=&quot;cmd.exe&quot;</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\Drive</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span><span class="keyword">\command</span>]</span><br><span class="line">@=&quot;cmd.exe /s /k pushd <span class="keyword">\&quot;</span><span class="comment">%V\&quot;&quot;</span></span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\LibraryFolder</span><span class="keyword">\background</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span>]</span><br><span class="line">@=&quot;cmd&quot;</span><br><span class="line">&quot;Icon&quot;=&quot;cmd.exe&quot;</span><br><span class="line"> </span><br><span class="line">[HKEY<span class="built_in">_</span>CLASSES<span class="built_in">_</span>ROOT<span class="keyword">\LibraryFolder</span><span class="keyword">\background</span><span class="keyword">\shell</span><span class="keyword">\OpenCmdHere</span><span class="keyword">\command</span>]</span><br><span class="line">@=&quot;cmd.exe /s /k pushd <span class="keyword">\&quot;</span><span class="comment">%V\&quot;&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> window </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 右键cmd </tag>
             
         </tags>
       
