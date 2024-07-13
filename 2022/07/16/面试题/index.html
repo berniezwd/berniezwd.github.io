@@ -1,0 +1,698 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>面试这件事儿 | 知瑾</title><meta name="keywords" content="面试"><meta name="author" content="知瑾"><meta name="copyright" content="知瑾"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="面试这件事儿"><meta name="application-name" content="面试这件事儿"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="面试这件事儿"><meta property="og:url" content="http://example.com/2022/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/index.html"><meta property="og:site_name" content="知瑾"><meta property="og:description" content="前端性能优化：首屏加载速度：1.关于首屏加载速度慢的问题 做法：排查是否第三方的插件包引起的项目体积大的问题 解决思路：通过引入插件包的外链cdn的形式来引入，并且在入口文件index.html中给script标签添加rel&amp;#x3D;preload或者rel&amp;#x3D;prefetch，来实现首页不必要加载，进行低优"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308121324111.png"><meta property="article:author" content="知瑾"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308121324111.png"><meta name="description" content="前端性能优化：首屏加载速度：1.关于首屏加载速度慢的问题 做法：排查是否第三方的插件包引起的项目体积大的问题 解决思路：通过引入插件包的外链cdn的形式来引入，并且在入口文件index.html中给script标签添加rel&amp;#x3D;preload或者rel&amp;#x3D;prefetch，来实现首页不必要加载，进行低优"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://example.com/2022/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202406031028986.png"},
+  postHeadAiDescription: undefined,
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:{"enable":true,"maxBarrage":1,"barrageTime":4000,"accessToken":"","mailMd5":""},
+  root: '/',
+  preloader: {"source":2},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    simplehomepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: true,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '知瑾',
+  title: '面试这件事儿',
+  postAI: '',
+  pageFillDescription: '前端性能优化：, 首屏加载速度：, 图片打包优化：, 项目难点：, 适配iphone的底部安全区域的问题, H5移动端遮挡键盘的问题, 框架内容, vue3为何比vue2块：, uniapp, uniapp分包：, Vite, 为什么说vite比webpack速度更快？, webpack, Git, vuex, 必备知识点, package.json, 老生常谈, MVVM的理解？, Vue的优点？, Vue双向绑定原理？, vue的生命周期？, vue2和vue3的diff算法, vue组件传值, vue路由, v-if和v-show, v-if和v-for, nextTick, HTTP状态码, 从输入url到看到页面的过程发生了什么？, GET、POST区别, JS篇, JS的数据类型, 如何判断js的数据类型, 遍历对象属性, 判断两个对象是否相等, call、apply、bind, 防抖节流, EventLoop事件循环？, Promise前端性能优化首屏加载速度关于首屏加载速度慢的问题做法排查是否第三方的插件包引起的项目体积大的问题解决思路通过引入插件包的外链的形式来引入并且在入口文件中给标签添加或者来实现首页不必要加载进行低优加载路由的懒加载做法将路由使用的方式导入只有使用到这个组件的时候才去执行加载解决思路一个页面里面如果某些功能使用频率比较低的组件也可以拆分出来作为异步组件然后去动态加载图片打包优化背景在项目中引入本地图片文件打包的时候会请求成的格式而且图片文件默认会被打包进文件里导致没有很好的解耦文件类型优化在中使用对图片进行打包配置当图片小于的时候就会打包到目录下项目难点适配的底部安全区域的问题某些页面的底部操作栏会藏在安全区域的底部解决这个问题之前需要先了解的安全区域都有哪些顶部的齐刘海底部的安全条安全区域距离左边边界的距离安全区域距离右边边界的距离安全区域距离顶部边界的距离安全区域距离底部边界的距离解决方案在全局入口的文件中添加新的适配方案全局的样式文件中添加实现效果移动端遮挡键盘的问题诸如聊天的应用评论的功能一半文本输入框会放在页面的底部聚焦文本框的时候很容易产生移动键盘会遮挡住文本框的问题不同的手机也会不同的表现形式解决方案监听文本框的聚焦事件在聚焦的时候通过文本框的原生功能让文本输入框出现在可视区域的最底部框架内容为何比块很大一部分原因是响应式的响应式原理简单代码示例奈文摩尔递归创建代理响应式属性并返回修改属性会触发方法的响应式原理简单代码示例视图更新重新定义属性监听起来双向绑定核心深度监听核心深度监听设置新值注意一直在闭包中此处设置完之后使用方法也是可以获取触发视图更新深度监听不是对象或数组重新定义各个属性也可以遍历数组准备数据奈文摩尔开始监听如果传入的中的属性不是一个对象则立即返回如果是一个引用类型的数据则遍历每个属性给每个属性都进行的绑定操作比如数据中有对象对这个进行监听来到的方法时候将的属性传入发现不是一个对象则立即返回这个如果中某个属性是对象又对对象中的每个属性进行一层生命周期页面首次进入加载时触发可以在这个生命周期去获取页面参数页面重新进入时触发页面首次渲染完成时触发页面每次被隐藏的时候触发页面卸载时被触发监听用户下拉动作页面上拉触底事件的回调用户点击右上角转发分包在中添加在中进行分包登录配置打包公共路径配置路径别名生产环境移除打包文件分类根据正则匹配文件后缀进行归类前端配置跨域环境变量开发环境生产环境的配置代码压缩图片压缩打包为什么说比速度更快他们的编译启动方式不同从命令启动到最后页面展示需要经历的过程以配置项为起点做一个全量的打包产物是一个文件启动一个服务监听启动的端口然后去访问再依次加载打包好的文件整个过程中最重要的点在于全量打包中间涉及到构建操作需要消耗大量的时间虽然在热更新和二次启动中会先找到缓存做处理但是项目的规模变大后开发体验和速度也会变得很慢反观的表现就不同启用预构建依赖提前将项目的第三方依赖格式化为模块启动服务监听启动端口访问基于浏览器原生的模块逐步去加载入口文件以及入口文件的依赖模块然后监听中间件对比源文件的改变再将转换后的发送给浏览器是静态模块打包工具对于来说所有的资源都属于模块通过分析模块间的依赖关系在内部构建出一个依赖图最终编译打包产物是和其他静态资源等默认情况下只支持对和文件进行打包诸如等其他类型的文件需要配合进行文件解析进行转换常见的如下加载并且压缩图片文件加载并编译文件加载并编译文件将语法转换为把文件输出到一个文件夹中用户设置一个阈值大于阈值会交给处理小于阈值时返回文件形式的编码处理图片和字体常见的如下赋予了很多功能比如打包优化资源管理环境变量注入等他们会运行在的不同阶段钩子生命周期中贯穿了整个编译周期在于解决无法实现的功能简化文件创建依赖于层面的优化对图片进行压缩减少转为的冗余代码提取公共代码模版预编译优化初始化一个仓库查看分支将已修改或未跟踪的文件添加到暂存区提交至本地仓库提及记录本地分支推送至远程分支查看当前工作目录和暂存区的状态查看提交的日志记录从远程分支拉取代码合并某分支到当前分支切换到分支创建分支并切换到该分支删除分支将当前分支到改动保存到堆栈中恢复堆栈中缓存的改动内容多个组件共享同个状态核心属性包括同步修改的状态存储在中改变中存储的状态通过显示的提交修改某个值组件中多次提交同一个方便的写法组件中的使用相当于因为对象是引用类型如果需要修改中一个对象状态需要深拷贝一份对象再进行修改怎么在组件中批量使用的的状态使用函数利用对象展开运算符将混入对象中中的怎么用组件中使用中的状态和的区别是提交不可以直接更改状态可以放异步操作是同步修改状态的调用是的调用的第一个参数包含了中模块的使用必备知识点不可对外发布比如指定入口文件老生常谈的理解是一种设计思想是指数据层是视图层通过的双向绑定把它们连接到一起实现数据驱动视图的功能这样一来开发人员就只需要关注数据层不用太注重视图层的更新提高开发效率的优点是一个构建数据驱动的渐进式框架尽可能通过简单的实现响应的数据绑定和组合视图组件核心在于响应式系统主要优势在响应式编程组件化开发虚拟等双向绑定原理使用来劫持各个属性的在数据变动的时候发布消息给订阅者触发相应的监听回调将当做一个选项时会遍历每个属性把每个属性都使用转换为在内部进行依赖跟踪在属性被访问和被操作的时候通知变化整合了三个函数通过来监听数据的变化通过来解析编译模版指令最终利用搭建两者的桥梁达到数据驱动视图的效果使用了的代理对象的方式将对象转换成代理对象可以捕获响应式对象的修改并且触发视图的更新的缺点只能监测属性不能监测对象不能监测数组的和索引对于数组的方法底层是进行了原型方法的重写的生命周期生命周期之后触发的第一个钩子此时和还没有创建不可以访问这些实例创建完后发生当前已经进入数据的观测可以操作数据但是这里操作数据不会触发函数可以做一些初始化数据的获取无法与进行交互发生在挂载之前虚拟已经创建完成即将开始渲染此时对更改数据不会触发真实已经挂载完毕数据完成双向绑定可以访问到节点发生在数据更新之前也就是响应式数据发生了更新虚拟重新渲染之前被触发发生在更新之后真实已经更新完成要主要避免在这时候进行数据更改因为可能导致无限循环的更新第一次页面加载触发的钩子多组件中生命周期的调用顺序组件的调用顺序都是先父后子渲染完成的顺序是先子后父组件的销毁操作是先父后子销毁完成的顺序是先子后父加载渲染过程父父父子子子子父和的算法算法有以下过程同级比较再比较子节点先判断一方有子节点和没有子节点的情况比较都有子节点的情况核心递归比较子节点的算法采用了双端比较算法同时从新旧的的两端开始进行比较借助值找到可复用的节点在进行相关操作相比的算法同样情况下可以减少移动节点次数减少不必要的性能损耗更加优雅的采用和算法在创建虚拟的时候就确定它的类型使用动态规划的思想求解最长递归子序列组件传值父传子通过向下传递的方式子组件接受数据子传父通过自定义事件来发射一个回调在回调中拿到值兄弟组件使用或者创建一个响应式对象暴露在全局可用其他方式通过创建代理然后子组件通过暴露方法和属性让父组件直接访问子组件的内容在中通过和来访问父实例和子实例路由路由模式分为模式和模式模式下值变化不会导致浏览器向服务器发出请求浏览器不发出请求就不会刷新页面可以通过事件知道发生了变化来实现页面部分内容的操作模式主要是中的这两个但是不会发生请求这样就可以监听变化来实现页面部分内容的操作和动态向添加或删除元素是通过设置元素的样式属性控制显隐和在中的优先级是高于的把他们放在一起遍历的时候会将那些为的也一起做遍历极大影响效率在中的优先级高于所以在调用的时它调用的变量还不存在就会导致异常更新是异步更新数据变化的时候不会立即完成更新是在下次更新循环结束之后执行的延迟回调状态码表示请求已被接受需要继续处理请求成功重定向网页永久移动到新位置本次获取到的内容是读取缓存中的数据会每次去服务器校验客户端错误请求需要身份验证无权限禁止访问请求参数或者资源不存在服务端错误从输入到看到页面的过程发生了什么解析判断是否是合法的查找缓存浏览器判断请求的资源是否在缓存中解析获取中对应的地址找到对应的服务器建立连接根据地址与服务器三次握手第一次握手告诉服务器我准备好了报文第二次握手服务器回应我也准备好了报文第三次握手那我开始向你发送服务请求了报文发送请求浏览器向服务器发送资源请求响应请求服务器将响应返回给浏览器四次握手关闭连接渲染页面构建树构建规则树渲染布局绘制区别请求参数暴露在地址上请求参数放在请求体中篇的数据类型基本数据类型保存在栈内中可以直接访问它的值复杂数据类型保存在堆当中栈内中保存的是地址通过栈里面的地址去访问堆当中的值如何判断的数据类型可以区分除了以外的其他基本数据类型以及对象类型中识别出一般用来判断引用数据类型不能判断基本数据类型它根据原型对象中是否存在来返回布尔值遍历对象属性判断两个对象是否相等判断两个对象都引用同一个地址返回布尔值作用都是改变指向接受个参数第一个是要指向的对象第二个是需要传递的参数接受个参数第一个是要指向的对象第二个是数组数组项是需要传递的参数会立即执行接受个参数第一个是要指向的对象第二个是参数列表返回一个函数防抖节流防抖多次触发事件事件处理函数只执行一次应用场景搜索框输入手机号和邮箱验证的输入检测节流事件触发后规定时间内事件处理函数不会被调用应用场景高频点击防止表单提交的多次点击防抖函数秒后再执行该事件若在秒内被重复触发则重新计时要被防抖的函数规定的时间保存指向拿到对象节流函数秒内只运行一次若在秒内重复触发只有一次生效要被节流的函数规定的时间事件循环是单线程运行的当遇到一个异步事件后会将异步事件进行挂起继续执行其他同步事件异步任务包含了微任务和宏任务微任务回调中宏任务等定时事件在一个事件循环中异步事件返回结果后会被放入事件队列中根据这个异步事件的类型放入不同的宏微任务队列中当前执行栈为空的时候会先去找微任务如果没有微任务才会去找宏任务一次类推进行事件循环异步编程是一种解决方案包含了三个状态并且一旦产生了结果是不可逆行为比如这个进入了状态不会再回到状态状态的改变是由内置的和来实现的回调属于微任务',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-12 13:24:56',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.1.1"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">React</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://berniezwd.github.io/REACT_MARQUEE/" title="跑马灯"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="/img/project/marquee.png" alt="跑马灯"/><span class="back-menu-item-text">跑马灯</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">有趣</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://berniezwd.github.io/PeopleJS/" title="人潮汹涌"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="/img/project/people.png" alt="人潮汹涌"/><span class="back-menu-item-text">人潮汹涌</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">知瑾</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 即刻短文</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> 搜索</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Html/" style="font-size: 1.05rem; color: rgb(52, 34, 56);">Html<sup>1</sup></a><a href="/tags/JavaScript/" style="font-size: 1.05rem; color: rgb(145, 4, 198);">JavaScript<sup>3</sup></a><a href="/tags/Jenkins%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" style="font-size: 1.05rem; color: rgb(16, 31, 122);">Jenkins自动化部署<sup>1</sup></a><a href="/tags/Nginx/" style="font-size: 1.05rem; color: rgb(113, 145, 35);">Nginx<sup>1</sup></a><a href="/tags/Pinia/" style="font-size: 1.05rem; color: rgb(151, 104, 161);">Pinia<sup>1</sup></a><a href="/tags/React/" style="font-size: 1.05rem; color: rgb(135, 75, 34); font-weight: 500; color: var(--anzhiyu-lighttext)">React<sup>4</sup></a><a href="/tags/Redux/" style="font-size: 1.05rem; color: rgb(7, 100, 152);">Redux<sup>1</sup></a><a href="/tags/TypeScript/" style="font-size: 1.05rem; color: rgb(61, 98, 81); font-weight: 500; color: var(--anzhiyu-lighttext)">TypeScript<sup>1</sup></a><a href="/tags/Vue/" style="font-size: 1.05rem; color: rgb(102, 121, 77);">Vue<sup>2</sup></a><a href="/tags/axios/" style="font-size: 1.05rem; color: rgb(121, 61, 168);">axios<sup>1</sup></a><a href="/tags/centOS/" style="font-size: 1.05rem; color: rgb(91, 62, 116);">centOS<sup>1</sup></a><a href="/tags/css/" style="font-size: 1.05rem; color: rgb(102, 172, 138);">css<sup>2</sup></a><a href="/tags/electron/" style="font-size: 1.05rem; color: rgb(132, 155, 63);">electron<sup>2</sup></a><a href="/tags/koa/" style="font-size: 1.05rem; color: rgb(186, 167, 73);">koa<sup>1</sup></a><a href="/tags/mysql/" style="font-size: 1.05rem; color: rgb(80, 190, 39);">mysql<sup>1</sup></a><a href="/tags/nestjs/" style="font-size: 1.05rem; color: rgb(36, 165, 70);">nestjs<sup>1</sup></a><a href="/tags/node/" style="font-size: 1.05rem; color: rgb(153, 77, 185);">node<sup>1</sup></a><a href="/tags/sass/" style="font-size: 1.05rem; color: rgb(105, 200, 179);">sass<sup>1</sup></a><a href="/tags/uniapp/" style="font-size: 1.05rem; color: rgb(78, 169, 188); font-weight: 500; color: var(--anzhiyu-lighttext)">uniapp<sup>1</sup></a><a href="/tags/vim/" style="font-size: 1.05rem; color: rgb(138, 185, 172);">vim<sup>1</sup></a><a href="/tags/vite/" style="font-size: 1.05rem; color: rgb(154, 21, 82);">vite<sup>1</sup></a><a href="/tags/vue/" style="font-size: 1.05rem; color: rgb(87, 122, 29);">vue<sup>1</sup></a><a href="/tags/vue3/" style="font-size: 1.05rem; color: rgb(196, 198, 46);">vue3<sup>1</sup></a><a href="/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/" style="font-size: 1.05rem; color: rgb(11, 103, 68);">云服务<sup>1</sup></a><a href="/tags/%E5%8F%B3%E9%94%AEcmd/" style="font-size: 1.05rem; color: rgb(73, 89, 101);">右键cmd<sup>1</sup></a><a href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 1.05rem; color: rgb(103, 149, 45);">工具类<sup>1</sup></a><a href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" style="font-size: 1.05rem; color: rgb(92, 9, 36);">开发环境搭建<sup>1</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E8%B7%AF%E7%94%B1/" style="font-size: 1.05rem; color: rgb(55, 176, 185);">文件路由<sup>1</sup></a><a href="/tags/%E6%A0%87%E7%AD%BE%E5%A4%96%E6%8C%82/" style="font-size: 1.05rem; color: rgb(73, 3, 129);">标签外挂<sup>1</sup></a><a href="/tags/%E9%9B%B6%E6%95%A3/" style="font-size: 1.05rem; color: rgb(63, 196, 39);">零散<sup>1</sup></a><a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.05rem; color: rgb(75, 197, 80);">面试<sup>1</sup></a><a href="/tags/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA%E8%A7%84%E8%8C%83/" style="font-size: 1.05rem; color: rgb(26, 177, 134);">项目搭建规范<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="anzhiyufont anzhiyu-icon-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/06/"><span class="card-archive-list-date">六月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/02/"><span class="card-archive-list-date">二月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95/" itemprop="url">面试</a></span></div></div><h1 class="post-title" itemprop="name headline">面试这件事儿</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2022-07-15T16:00:00.000Z" title="发表于 2022-07-16 00:00:00">2022-07-16</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-08-12T05:24:56.974Z" title="更新于 2023-08-12 13:24:56">2023-08-12</time></span></div><div class="meta-secondline"></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308121324111.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2022/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/"><header><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95/" itemprop="url">面试</a><h1 id="CrawlerTitle" itemprop="name headline">面试这件事儿</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">知瑾</span><time itemprop="dateCreated datePublished" datetime="2022-07-15T16:00:00.000Z" title="发表于 2022-07-16 00:00:00">2022-07-16</time><time itemprop="dateCreated datePublished" datetime="2023-08-12T05:24:56.974Z" title="更新于 2023-08-12 13:24:56">2023-08-12</time></header><h1 id="前端性能优化："><a href="#前端性能优化：" class="headerlink" title="前端性能优化："></a>前端性能优化：</h1><h2 id="首屏加载速度："><a href="#首屏加载速度：" class="headerlink" title="首屏加载速度："></a>首屏加载速度：</h2><p>1.关于首屏加载速度慢的问题</p>
+<p>做法：排查是否第三方的插件包引起的项目体积大的问题</p>
+<p>解决思路：通过引入插件包的外链cdn的形式来引入，并且在入口文件index.html中给script标签添加<code>rel=preload</code>或者<code>rel=prefetch</code>，来实现首页不必要加载，进行低优加载。</p>
+<p>2.路由的懒加载</p>
+<p>做法：将路由使用<code>import</code>的方式导入，只有使用到这个组件的时候，才去执行加载。</p>
+<p>解决思路：一个页面里面如果某些功能使用频率比较低的组件也可以拆分出来作为异步组件，然后去动态加载。</p>
+<h2 id="图片打包优化："><a href="#图片打包优化：" class="headerlink" title="图片打包优化："></a>图片打包优化：</h2><p>背景：在项目中引入本地图片文件打包的时候会请求成base64的格式，而且图片文件默认会被打包进js文件里，导致没有很好的解耦文件类型。</p>
+<p>优化：在<code>webpack</code>中使用<code>url-loader</code>对图片进行打包配置，当图片小于1024*7的时候就会打包到images目录下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">chainWebpack</span>:<span class="function">(<span class="params">config</span>)=&gt;</span>&#123;</span><br><span class="line">  config.<span class="property">resolve</span>.<span class="property">alias</span>.<span class="title function_">set</span>(<span class="string">&#x27;@&#x27;</span>,<span class="title function_">resolve</span>(<span class="string">&#x27;src&#x27;</span>)),</span><br><span class="line">  config.<span class="property">module</span></span><br><span class="line">  	.<span class="title function_">rule</span>(<span class="string">&#x27;images&#x27;</span>)</span><br><span class="line">  	.<span class="title function_">use</span>(<span class="string">&#x27;url-loader&#x27;</span>)</span><br><span class="line">  	.<span class="title function_">tap</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    	<span class="attr">name</span>:<span class="string">&#x27;./images/[name].[ext]&#x27;</span>,</span><br><span class="line">      <span class="attr">limit</span>: <span class="number">1024</span> * <span class="number">7</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="项目难点："><a href="#项目难点：" class="headerlink" title="项目难点："></a>项目难点：</h1><h2 id="适配iphone的底部安全区域的问题"><a href="#适配iphone的底部安全区域的问题" class="headerlink" title="适配iphone的底部安全区域的问题"></a>适配iphone的底部安全区域的问题</h2><p>某些h5页面的底部操作栏，会藏在安全区域的底部</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308111442912.png" alt="image-20230811144234865" style="zoom: 40%;" />
+
+<p>解决这个问题之前，需要先了解iphone的安全区域都有哪些？<strong>顶部的齐刘海</strong>，<strong>底部的安全条</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308111443120.png" alt="image-20230811144313097" style="zoom:33%;" />
+
+<ul>
+<li>env(safe-area-inset-left) 安全区域距离左边边界的距离</li>
+<li>env(safe-area-inset-right) 安全区域距离右边边界的距离</li>
+<li>env(safe-area-inset-top) 安全区域距离顶部边界的距离</li>
+<li>env(safe-area-inset-bottom) 安全区域距离底部边界的距离</li>
+</ul>
+<p>解决方案：</p>
+<ol>
+<li>在全局入口的<code>index.html</code>文件中，添加新的适配方案<code>viewport-fil=cover</code></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=0, maximum-scale=1.0, minimum-scale=1.0, viewport-fil=cover&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>全局的样式文件中添加</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@supports</span>(bottom:env(safe-area-inset-bottom))&#123;</span><br><span class="line">  <span class="selector-id">#app</span>&#123;</span><br><span class="line">    <span class="attribute">padding-bottom</span>:<span class="built_in">constant</span>(safe-area-inset-bottom);</span><br><span class="line">    <span class="attribute">padding-bottom</span>:<span class="built_in">env</span>(safe-area-inset-bottom);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现效果：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308111448251.png" alt="image-20230811144828210" style="zoom:40%;" />
+
+<h2 id="H5移动端遮挡键盘的问题"><a href="#H5移动端遮挡键盘的问题" class="headerlink" title="H5移动端遮挡键盘的问题"></a>H5移动端遮挡键盘的问题</h2><p>诸如聊天的应用、评论的功能，一半文本输入框会放在页面的底部，聚焦文本框的时候，很容易产生移动键盘会遮挡住文本框的问题，不同的手机也会不同的表现形式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308111453823.png" alt="image-20230811145334794" style="zoom:33%;" />
+
+<p>解决方案：</p>
+<p>监听文本框的聚焦<code>focus</code>事件，在聚焦的时候，通过文本框的原生api功能，让文本输入框出现在可视区域的最底部</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">input.<span class="title function_">addEventListener</span>(<span class="string">&#x27;focus&#x27;</span>,<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    input.<span class="title function_">scrollIntoView</span>(<span class="literal">false</span>)</span><br><span class="line">  &#125;,<span class="number">300</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="框架内容"><a href="#框架内容" class="headerlink" title="框架内容"></a>框架内容</h1><h2 id="vue3为何比vue2块："><a href="#vue3为何比vue2块：" class="headerlink" title="vue3为何比vue2块："></a>vue3为何比vue2块：</h2><p>很大一部分原因是proxy响应式：</p>
+<p>vue3的响应式原理简单代码示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>:<span class="string">&#x27;奈文摩尔&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>:<span class="number">18</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> handler = &#123;</span><br><span class="line">  <span class="title function_">get</span>(<span class="params">target,key,receiver</span>)&#123;</span><br><span class="line">    <span class="comment">// 递归创建代理响应式属性并返回</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> target[key] === <span class="string">&#x27;object&#x27;</span> &amp;&amp; target[key] !== <span class="literal">null</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Proxy</span>(target[key],handler)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">get</span>(target,key,receiver)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">set</span>(<span class="params">target,key,value,receiver</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">set</span>(target,key,value,receiver)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> proxy = <span class="keyword">new</span> <span class="title class_">Proxy</span>(obj,handler)</span><br><span class="line">proxy.<span class="property">name</span> = <span class="string">&#x27;berniehzong&#x27;</span> <span class="comment">// 修改name属性，会触发set方法</span></span><br><span class="line">proxy.<span class="property">age</span>= <span class="number">28</span></span><br></pre></td></tr></table></figure>
+
+<p>vue2的响应式原理简单代码示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">updateView</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;视图更新&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 重新定义属性，监听起来（双向绑定核心）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">defineReactive</span>(<span class="params">target,key,value</span>)&#123;</span><br><span class="line">  <span class="comment">// 深度监听</span></span><br><span class="line">  <span class="title function_">observer</span>(value)</span><br><span class="line">  <span class="comment">// 核心API</span></span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(target,key,&#123;</span><br><span class="line">    <span class="title function_">get</span>(<span class="params"></span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> value</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">set</span>(<span class="params">newValue</span>)&#123;</span><br><span class="line">      <span class="keyword">if</span>(newValue!==value)&#123;</span><br><span class="line">        <span class="comment">// 深度监听</span></span><br><span class="line">        <span class="title function_">observer</span>(newValue)</span><br><span class="line">        <span class="comment">// 设置新值，注意，value一直在闭包中，此处设置完之后，使用get方法也是可以获取</span></span><br><span class="line">        value = newValue</span><br><span class="line">        <span class="comment">// 触发视图更新</span></span><br><span class="line">        <span class="title function_">updateView</span>()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 深度监听</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">observer</span>(<span class="params">target</span>)&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span> || target === <span class="literal">null</span>)&#123;</span><br><span class="line">    <span class="comment">// 不是对象或数组</span></span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 重新定义各个属性 （for in 也可以遍历数组）</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> target)&#123;</span><br><span class="line">    <span class="title function_">defineReactive</span>(target,key,target[key])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 准备数据</span></span><br><span class="line"><span class="keyword">const</span> data = &#123;</span><br><span class="line">  <span class="attr">name</span>:<span class="string">&#x27;奈文摩尔&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 开始监听</span></span><br><span class="line"><span class="title function_">observer</span>(data)</span><br></pre></td></tr></table></figure>
+
+<p>如果vue2传入的data中的属性，不是一个对象，则立即返回，如果是一个引用类型的数据，则遍历每个属性，给每个属性都进行<code>Object.defineProperty</code>的绑定操作</p>
+<p>比如数据中有data对象，对这个data进行监听，来到<code>observer</code>的 方法时候，将data的属性传入，发现name不是一个对象，则立即返回这个name，如果data中某个属性是对象，又对对象中的每个属性进行一层<code>Object.defineProperty</code></p>
+<h2 id="uniapp"><a href="#uniapp" class="headerlink" title="uniapp"></a>uniapp</h2><p>生命周期：</p>
+<p>onLoad：页面首次进入加载时触发，可以在这个生命周期去获取页面参数</p>
+<p>onShow：页面重新进入时触发</p>
+<p>onReady：页面首次渲染完成时触发</p>
+<p>onHide：页面每次被隐藏的时候触发</p>
+<p>onUnload:页面卸载时被触发</p>
+<p>onPullDownRefresh：监听用户下拉动作</p>
+<p>onReachBottom:页面上拉触底事件的回调</p>
+<p>onShareAppMessage：用户点击右上角转发</p>
+<h2 id="uniapp分包："><a href="#uniapp分包：" class="headerlink" title="uniapp分包："></a>uniapp分包：</h2><p>在manifest.json中添加<code>&quot;optimization&quot;:&#123;&quot;subPackages&quot;:true&#125;</code></p>
+<p>在page.json中进行分包：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;subPackages&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;root&quot;</span><span class="punctuation">:</span> <span class="string">&quot;login&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;pages&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;login&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;style&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;navigationBarTitleText&quot;</span><span class="punctuation">:</span> <span class="string">&quot;登录&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Vite"><a href="#Vite" class="headerlink" title="Vite"></a>Vite</h2><p>base：配置打包公共路径</p>
+<p>alias：配置路径别名</p>
+<p>生产环境移除console.log：</p>
+<p>打包文件分类（根据正则匹配文件后缀，进行归类）</p>
+<p>proxy前端配置跨域</p>
+<p>env环境变量（开发环境、生产环境）</p>
+<p>cdn的配置</p>
+<p>gzip代码压缩</p>
+<p>图片压缩打包</p>
+<h2 id="为什么说vite比webpack速度更快？"><a href="#为什么说vite比webpack速度更快？" class="headerlink" title="为什么说vite比webpack速度更快？"></a>为什么说vite比webpack速度更快？</h2><p>他们的编译启动方式不同：</p>
+<p>webpack从<code>yarn start</code>命令启动，到最后页面展示，需要经历的过程：</p>
+<p>以<code>entry</code>配置项为起点，做一个全量的打包，产物是一个<code>index.html</code>文件，启动一个node服务，监听启动的端口，然后去访问<code>index.html</code>，再依次加载打包好的文件。（整个过程中，最重要的点在于全量打包，中间涉及到构建chunk操作，需要消耗大量的时间，虽然在热更新和二次启动中，会先找到缓存做处理，但是项目的规模变大后，开发体验和速度也会变得很慢）</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308121218117.png" alt="image-20230812121813022" style="zoom:33%;" />
+
+<p>反观vite的表现就不同：</p>
+<ol>
+<li>启用esbuild预构建依赖，提前将项目的第三方依赖格式化为ESM模块</li>
+<li>启动node服务，监听启动端口，访问<code>index.html</code>，基于浏览器原生的<code>ESM</code>模块，逐步去加载入口文件以及入口文件的依赖模块，然后监听中间件，对比源文件的改变，再将转换后的html发送给浏览器</li>
+</ol>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308121231371.png" alt="image-20230812123132346" style="zoom:33%;" />
+
+<h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><p>webpack是静态模块打包工具，对于webpack来说，所有的资源都属于模块，通过分析模块间的依赖关系，在内部构建出一个依赖图，最终编译打包产物是html、javascript、css和其他静态资源等。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202308121129890.png" alt="image-20230812112911840" style="zoom:33%;" />
+
+<p>默认情况下，webpack只支持对js和json文件进行打包，诸如css、html、png等其他类型的文件，需要配合loader进行文件解析进行转换。</p>
+<p>常见的<code>loader</code>如下：</p>
+<ul>
+<li>image-loader：加载并且压缩图片文件</li>
+<li>less-loader：加载并编译less文件</li>
+<li>sass-loader：加载并编译sass、less文件</li>
+<li>babel-loader：将ES6语法转换为ES5</li>
+<li>file-loader：把文件输出到一个文件夹中</li>
+<li>url-loader：用户设置一个阈值，大于阈值会交给file-loader处理，小于阈值时返回文件base64形式的编码（处理图片和字体）</li>
+</ul>
+<p>常见的<code>plugin</code>如下：</p>
+<p>plugin赋予了很多功能，比如打包优化，资源管理，环境变量注入等，他们会运行在webpack的不同阶段钩子、生命周期中，贯穿了整个webpack编译周期，在于解决loader无法实现的功能。</p>
+<ul>
+<li>HtmlwebpackPlugin：简化html文件创建，依赖于html-loader</li>
+</ul>
+<p>webpack层面的优化：</p>
+<ul>
+<li>对图片进行压缩</li>
+<li>减少ES6转为ES5的冗余代码</li>
+<li>提取公共代码</li>
+<li>模版预编译</li>
+<li>优化sourceMap</li>
+</ul>
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><p>初始化一个仓库：git init</p>
+<p>查看分支：git branch</p>
+<p>将已修改或未跟踪的文件添加到暂存区： git add .</p>
+<p>提交至本地仓库：git commit -m “提及记录xxxx”</p>
+<p>本地分支推送至远程分支：git push</p>
+<p>查看当前工作目录和暂存区的状态: git status</p>
+<p>查看提交的日志记录： git log</p>
+<p>从远程分支拉取代码：git pull</p>
+<p>合并某分支(xxx)到当前分支： git merge xxx</p>
+<p>切换到分支xxx：git checkout xxx</p>
+<p>创建分支xxx并切换到该分支：git checkout -b xxx</p>
+<p>删除分支xxx：git branch -d xxx</p>
+<p>将当前分支到改动保存到堆栈中：git stash</p>
+<p>恢复堆栈中缓存的改动内容：git stash pop</p>
+<h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2><p>多个组件共享同个状态</p>
+<p>核心属性包括：state、getters、mutations(同步修改state)、actions、modules</p>
+<p>vuex的状态存储在state中，改变vuex中存储的状态，通过显示的提交commit mutation</p>
+<p>修改某个值:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> <span class="title class_">Vuex</span>.<span class="title class_">Store</span>(&#123;</span><br><span class="line">  <span class="attr">state</span>:&#123;</span><br><span class="line">    <span class="attr">number</span>:<span class="number">10</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">mutations</span>:&#123;</span><br><span class="line">    <span class="title function_">SET_NUMBER</span>(<span class="params">state,newNumber</span>)&#123;</span><br><span class="line">      state.<span class="property">number</span> = newNumber</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">commit</span>(<span class="string">&#x27;SET_NUMBER&#x27;</span>, <span class="number">18</span>)</span><br></pre></td></tr></table></figure>
+
+<p>组件中多次提交同一个<code>mutation</code>方便的写法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; mapMutations &#125; <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span></span><br><span class="line"><span class="attr">methods</span>:&#123;</span><br><span class="line">  ...<span class="title function_">mapMutations</span>(&#123;</span><br><span class="line">    <span class="attr">setNumber</span>:<span class="string">&#x27;SET_NUMBER&#x27;</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 组件中的使用 相当于 ==&gt; this.$store.commit(&#x27;SET_NUMBER&#x27;,10)</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="title function_">setNumber</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>因为对象是引用类型，如果需要修改vuex中一个对象状态，需要深拷贝一份对象，再进行修改。</p>
+<p>怎么在组件中批量使用vuex的state的状态？</p>
+<p>使用mapState函数，利用对象展开运算符将state混入computed对象中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;mapState&#125; <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">computed</span>:&#123;</span><br><span class="line">    ...<span class="title function_">mapState</span>([<span class="string">&#x27;price&#x27;</span>,<span class="string">&#x27;number&#x27;</span>])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>state中的getter怎么用？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> <span class="title class_">Vuex</span>.<span class="title class_">Store</span>(&#123;</span><br><span class="line">  <span class="attr">state</span>:&#123;</span><br><span class="line">    <span class="attr">price</span>:<span class="number">10</span>,</span><br><span class="line">    <span class="attr">number</span>:<span class="number">2</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">getters</span>:&#123;</span><br><span class="line">    <span class="attr">total</span>: <span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> state.<span class="property">price</span> * state.<span class="property">number</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>组件中使用vuex中的getters状态：<code>this.$store.getters.total</code></p>
+<p>action和mutation的区别？</p>
+<p>action是提交mutation，不可以直接更改状态</p>
+<p>action可以放异步操作，mutation是同步修改状态</p>
+<p>action的调用是：<code>this.$store.dispatch(&#39;ACTION_NAME&#39;,data)</code></p>
+<p>mutation的调用：<code>this.$store.commit(&#39;SET_NUMBER&#39;,10)</code></p>
+<p>action的第一个参数包含了</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  state<span class="punctuation">,</span>rootState<span class="punctuation">,</span>commit<span class="punctuation">,</span>dispatch<span class="punctuation">,</span>getters</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>vuex中模块的使用？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vuex</span> <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span>;</span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">use</span>(<span class="title class_">Vuex</span>);</span><br><span class="line"><span class="keyword">import</span> moduleA <span class="keyword">from</span> <span class="string">&#x27;./module/moduleA&#x27;</span></span><br><span class="line"><span class="keyword">import</span> moduleB <span class="keyword">from</span> <span class="string">&#x27;./module/moduleB&#x27;</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> <span class="title class_">Vuex</span>.<span class="title class_">Store</span>(&#123;</span><br><span class="line">    <span class="attr">modules</span>:&#123;</span><br><span class="line">        moduleA,</span><br><span class="line">        moduleB</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> store</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="必备知识点"><a href="#必备知识点" class="headerlink" title="必备知识点"></a>必备知识点</h1><h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;xxxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="string">&quot;private&quot;</span>： <span class="literal"><span class="keyword">true</span></span> <span class="comment">// 不可对外发布，比如npm</span></span><br><span class="line">  <span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src/index.js&quot;</span> <span class="comment">// 指定入口文件</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="老生常谈"><a href="#老生常谈" class="headerlink" title="老生常谈"></a>老生常谈</h1><h2 id="MVVM的理解？"><a href="#MVVM的理解？" class="headerlink" title="MVVM的理解？"></a>MVVM的理解？</h2><p>MVVM 是一种设计思想，model是指数据层，view是视图层，通过viewmodel的双向绑定把它们连接到一起，实现数据驱动视图的功能，这样一来开发人员就只需要关注数据层，不用太注重视图层的更新，提高开发效率。</p>
+<h2 id="Vue的优点？"><a href="#Vue的优点？" class="headerlink" title="Vue的优点？"></a>Vue的优点？</h2><p>vue是一个构建数据驱动的web渐进式框架，尽可能通过简单的api实现响应的数据绑定和组合视图组件，核心在于响应式系统，主要优势在响应式编程，组件化开发，虚拟DOM等</p>
+<h2 id="Vue双向绑定原理？"><a href="#Vue双向绑定原理？" class="headerlink" title="Vue双向绑定原理？"></a>Vue双向绑定原理？</h2><p>Vue2使用<code>Object.defineProperty</code>来劫持各个属性的setter、getter，在数据变动的时候发布消息给订阅者，触发相应的监听回调。（Vue将data当做一个选项时，Vue会遍历每个属性，把每个属性都使用<code>Object.defineProperty</code>转换为setter、getter，在内部进行依赖跟踪，在属性被访问和被操作的时候通知变化，整合了<code>Observer</code>、<code>Compile</code>，<code>Watcher</code>三个函数，通过<code>Observer</code>来监听数据的变化，通过<code>Compile</code>来解析编译模版指令，最终利用<code>Watcher</code>搭建两者的桥梁，达到数据驱动视图的效果）</p>
+<p>Vue3使用了Es6的<code>Proxy</code>代理对象的方式，将对象转换成代理对象，Proxy可以捕获响应式对象的修改，并且触发视图的更新。</p>
+<p>vue2的<code>Object.defineProperty</code>缺点：</p>
+<ul>
+<li>只能监测属性，不能监测对象</li>
+<li>不能监测数组的length和索引</li>
+<li>对于数组的方法，底层是进行了原型方法的重写</li>
+</ul>
+<h2 id="vue的生命周期？"><a href="#vue的生命周期？" class="headerlink" title="vue的生命周期？"></a>vue的生命周期？</h2><p>vue2生命周期：</p>
+<p>beforeCreate：new Vue之后触发的第一个钩子，此时data和methods还没有创建，不可以访问这些api</p>
+<p>created：实例创建完后发生，当前已经进入数据的观测，可以操作数据，但是这里操作数据不会触发updated函数，可以做一些初始化数据的获取，无法与DOM进行交互</p>
+<p>beforeMount：发生在挂载之前，虚拟dom已经创建完成，即将开始渲染，此时对更改数据不会触发updated</p>
+<p>mounted：真实dom已经挂载完毕，数据完成双向绑定，可以访问到dom节点</p>
+<p>beforeUpdate：发生在数据更新之前，也就是响应式数据发生了更新，虚拟DOM重新渲染之前被触发</p>
+<p>updated：发生在更新之后，真实DOM已经更新完成，要主要避免在这时候进行数据更改，因为可能导致无限循环的更新</p>
+<p>第一次页面加载触发的钩子：beforeCreated、created、beforeMount、mounted</p>
+<p>多组件中生命周期的调用顺序：</p>
+<p>组件的调用顺序都是先父后子，渲染完成的顺序是先子后父</p>
+<p>组件的销毁操作是先父后子，销毁完成的顺序是先子后父</p>
+<p>加载渲染过程：父beforeCreate-&gt;父created-&gt;父beforeMount-&gt;子beforeCreate-&gt;子created-&gt;子beforeMount- &gt;子mounted-&gt;父mounted</p>
+<h2 id="vue2和vue3的diff算法"><a href="#vue2和vue3的diff算法" class="headerlink" title="vue2和vue3的diff算法"></a>vue2和vue3的diff算法</h2><p>diff算法有以下过程：</p>
+<ul>
+<li>同级比较，再比较子节点</li>
+<li>先判断一方有子节点和没有子节点的情况</li>
+<li>比较都有子节点的情况（核心diff）</li>
+<li>递归比较子节点</li>
+</ul>
+<p>vue2的diff算法采用了双端比较算法：</p>
+<p>​	同时从新旧的children的两端开始进行比较，借助key值找到可复用的节点，在进行相关操作。相比React的diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加优雅</p>
+<p>vue3的采用ivi和inferno算法：</p>
+<p>​	在创建虚拟dom的时候，就确定它的类型，使用动态规划的思想求解最长递归子序列</p>
+<h2 id="vue组件传值"><a href="#vue组件传值" class="headerlink" title="vue组件传值"></a>vue组件传值</h2><p>父传子：通过向下传递<code>props</code>的方式，子组件接受数据</p>
+<p>子传父：通过自定义事件<code>emits</code>来发射一个回调，在回调中拿到值</p>
+<p>兄弟组件：使用vuex、pinia、或者创建一个响应式对象，暴露在全局可用</p>
+<p>其他方式：</p>
+<p>ref，通过创建代理ref，然后子组件通过暴露方法和属性，让父组件直接访问子组件的内容</p>
+<p>在vue2中，通过<code>$parent</code>和<code>$children</code>来访问父实例和子实例</p>
+<h2 id="vue路由"><a href="#vue路由" class="headerlink" title="vue路由"></a>vue路由</h2><p>路由模式分为：hash模式和history模式</p>
+<p>hash模式下，hash值变化，不会导致浏览器向服务器发出请求，浏览器不发出请求，就不会刷新页面，可以通过hashchange事件知道hash发生了变化，来实现页面部分内容的操作</p>
+<p>history模式，主要是html5中的pushState、replaceState这两个API，但是不会发生请求，这样就可以监听url变化，来实现页面部分内容的操作</p>
+<h2 id="v-if和v-show"><a href="#v-if和v-show" class="headerlink" title="v-if和v-show"></a>v-if和v-show</h2><p>v-if动态向dom添加或删除DOM元素</p>
+<p>v-show是通过设置dom元素的display样式属性控制显隐</p>
+<h2 id="v-if和v-for"><a href="#v-if和v-for" class="headerlink" title="v-if和v-for"></a>v-if和v-for</h2><p>在vue2中，v-for的优先级是高于v-if的，把他们放在一起，遍历的时候，会将那些v-if为false的也一起做遍历，极大影响效率。</p>
+<p>在vue3中，v-if的优先级高于v-for，所以在调用v-if的时，它调用的变量还不存在，就会导致异常。</p>
+<h2 id="nextTick"><a href="#nextTick" class="headerlink" title="nextTick"></a>nextTick</h2><p>vue更新dom是异步更新，数据变化的时候Dom不会立即完成更新，<code>nextTick</code>是在下次DOM更新循环结束之后执行的延迟回调</p>
+<h2 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h2><p>1xx：表示请求已被接受，需要继续处理</p>
+<p>2xx：请求成功</p>
+<p>3xx：重定向</p>
+<p>​	301：网页永久移动到新位置</p>
+<p>​	304：本次获取到的内容是读取缓存中的数据，会每次去服务器校验</p>
+<p>4xx：客户端错误</p>
+<p>​	401：请求需要身份验证，无权限</p>
+<p>​	403：禁止访问</p>
+<p>​	404：请求参数，或者资源不存在</p>
+<p>5xx：服务端错误</p>
+<h2 id="从输入url到看到页面的过程，发生了什么？"><a href="#从输入url到看到页面的过程，发生了什么？" class="headerlink" title="从输入url到看到页面的过程，发生了什么？"></a>从输入url到看到页面的过程，发生了什么？</h2><ol>
+<li>url解析：判断url是否是合法的url</li>
+<li>查找缓存：浏览器判断请求的资源是否在缓存中</li>
+<li>dns解析：获取url中对应的ip地址，找到对应的服务器</li>
+<li>建立TCP连接：根据ip地址，与服务器三次握手：第一次握手告诉服务器我准备好了syn报文，第二次握手服务器回应我也准备好了ack报文，第三次握手那我开始向你发送服务请求了ack报文</li>
+<li>发送请求：浏览器向服务器发送资源请求</li>
+<li>响应请求：服务器将响应返回给浏览器</li>
+<li>tcp四次握手：关闭tcp连接</li>
+<li>渲染页面：构建dom树，构建css规则树，渲染dom，布局，绘制</li>
+</ol>
+<h2 id="GET、POST区别"><a href="#GET、POST区别" class="headerlink" title="GET、POST区别"></a>GET、POST区别</h2><p>get</p>
+<p>请求参数暴露在url地址上</p>
+<p>post</p>
+<p>请求参数放在请求体body中</p>
+<h1 id="JS篇"><a href="#JS篇" class="headerlink" title="JS篇"></a>JS篇</h1><h2 id="JS的数据类型"><a href="#JS的数据类型" class="headerlink" title="JS的数据类型"></a>JS的数据类型</h2><p>基本数据类型：number、string、boolean、null、undefined、symbol、bigint，保存在栈内中，可以直接访问它的值。</p>
+<p>复杂数据类型：object、function、array、regexp、date，保存在堆当中，栈内中保存的是地址，通过栈里面的地址去访问堆当中的值。</p>
+<h2 id="如何判断js的数据类型"><a href="#如何判断js的数据类型" class="headerlink" title="如何判断js的数据类型"></a>如何判断js的数据类型</h2><ol>
+<li>typeof可以区分除了null以外的其他基本数据类型，以及对象类型中识别出function</li>
+</ol>
+<p>​	typeof null &#x3D;&#x3D;&gt; ‘object’</p>
+<ol start="2">
+<li>instanceof一般用来判断引用数据类型，不能判断基本数据类型，它根据原型对象中是否存在来返回布尔值</li>
+</ol>
+<h2 id="遍历对象属性"><a href="#遍历对象属性" class="headerlink" title="遍历对象属性"></a>遍历对象属性</h2><p>Object.keys(obj)</p>
+<p>Object.getOwnPropertyNames(obj)</p>
+<p>for…in…</p>
+<h2 id="判断两个对象是否相等"><a href="#判断两个对象是否相等" class="headerlink" title="判断两个对象是否相等"></a>判断两个对象是否相等</h2><p>Object.is(obj1,obj2)判断两个对象都引用同一个地址，返回布尔值</p>
+<h2 id="call、apply、bind"><a href="#call、apply、bind" class="headerlink" title="call、apply、bind"></a>call、apply、bind</h2><p>作用都是改变this指向，</p>
+<p>call接受2个参数，第一个是要指向的对象，第二个是需要传递的参数</p>
+<p>apply接受2个参数，第一个是要指向的对象，第二个是数组，数组项是需要传递的参数，apply会立即执行</p>
+<p>bind接受2个参数，第一个是要指向的对象，第二个是参数列表，bind返回一个函数</p>
+<h2 id="防抖节流"><a href="#防抖节流" class="headerlink" title="防抖节流"></a>防抖节流</h2><p>防抖：多次触发事件，事件处理函数只执行一次</p>
+<p>​	应用场景：搜索框输入，手机号和邮箱验证的输入检测</p>
+<p>节流：事件触发后，规定时间内，事件处理函数不会被调用</p>
+<p>​	应用场景：高频点击，防止表单提交的多次点击</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*** 防抖函数 n 秒后再执行该事件，若在 n 秒内被重复触发，则重新计时</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> func 要被防抖的函数</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> wait 规定的时间</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">debounce</span>(<span class="params">func,wait</span>)&#123;</span><br><span class="line">  <span class="keyword">let</span> timer;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> context = <span class="variable language_">this</span> <span class="comment">// 保存this指向</span></span><br><span class="line">    <span class="keyword">let</span> args = <span class="variable language_">arguments</span> <span class="comment">// 拿到event对象</span></span><br><span class="line">    <span class="built_in">clearTimeout</span>(timer)</span><br><span class="line">    timer = <span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">      func.<span class="title function_">call</span>(context,args)</span><br><span class="line">    &#125;,wait)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*** 节流函数 n 秒内只运行一次，若在 n 秒内重复触发，只有一次生效</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> fn 要被节流的函数</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> wait 规定的时间</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">throttled</span>(<span class="params">fn, wait</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> timer = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!timer) &#123;</span><br><span class="line">      timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        fn.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args);</span><br><span class="line">        timer = <span class="literal">null</span>;</span><br><span class="line">      &#125;, wait);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="EventLoop事件循环？"><a href="#EventLoop事件循环？" class="headerlink" title="EventLoop事件循环？"></a>EventLoop事件循环？</h2><p>js是单线程运行的，当遇到一个异步事件后，js会将异步事件进行挂起，继续执行其他同步事件。</p>
+<p>异步任务包含了：微任务和宏任务</p>
+<p>微任务：promise回调、node中process.nextTick</p>
+<p>宏任务：setTimeout、setInterval等定时事件</p>
+<p>在一个事件循环中，异步事件返回结果后会被放入<code>事件队列</code>中，根据这个异步事件的类型，放入不同的宏微任务队列中，当前执行栈为空的时候，会先去找微任务，如果没有微任务才会去找宏任务，一次类推进行事件循环。</p>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>promise异步编程是一种解决方案，包含了三个状态<code>pending</code>、<code>fulfilled</code>、<code>rejected</code>，并且一旦产生了结果，是不可逆行为，比如这个promise进入了rejected状态，不会再回到pending状态，状态的改变是由内置的api<code>resolve</code>和<code>reject</code>来实现的，then回调属于微任务。</p>
+</article><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/28/Node/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.zhimg.com%2Fv2-f6241353ba024915b991e8d5847b8da2_1440w.jpg%3Fsource%3D172ae18b&amp;refer=http%3A%2F%2Fpic1.zhimg.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1659410579&amp;t=a3fd1f73c15a8fe0f9b98e0520731d31" onerror="onerror=null;src='/img/default_cover.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Nodejs</div></div></a></div><div class="next-post pull-right"><a href="/2022/07/16/%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84CSS/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202304200914033.png" onerror="onerror=null;src='/img/default_cover.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">记不住的CSS</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 评论</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="/img/baby.png" onerror="this.onerror=null;this.src='/img/404.gif'" alt="avatar"/></div><div class="author-info__description"></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">知瑾</h1><div class="author-info__desc">生活明朗 万物可爱</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/berniezwd" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">前端性能优化：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">首屏加载速度：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E6%89%93%E5%8C%85%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">图片打包优化：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%9A%BE%E7%82%B9%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">项目难点：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E9%85%8Diphone%E7%9A%84%E5%BA%95%E9%83%A8%E5%AE%89%E5%85%A8%E5%8C%BA%E5%9F%9F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">适配iphone的底部安全区域的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#H5%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%81%AE%E6%8C%A1%E9%94%AE%E7%9B%98%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">H5移动端遮挡键盘的问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E5%86%85%E5%AE%B9"><span class="toc-number">3.</span> <span class="toc-text">框架内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#vue3%E4%B8%BA%E4%BD%95%E6%AF%94vue2%E5%9D%97%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">vue3为何比vue2块：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uniapp"><span class="toc-number">3.2.</span> <span class="toc-text">uniapp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uniapp%E5%88%86%E5%8C%85%EF%BC%9A"><span class="toc-number">3.3.</span> <span class="toc-text">uniapp分包：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vite"><span class="toc-number">3.4.</span> <span class="toc-text">Vite</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4vite%E6%AF%94webpack%E9%80%9F%E5%BA%A6%E6%9B%B4%E5%BF%AB%EF%BC%9F"><span class="toc-number">3.5.</span> <span class="toc-text">为什么说vite比webpack速度更快？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack"><span class="toc-number">3.6.</span> <span class="toc-text">webpack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git"><span class="toc-number">3.7.</span> <span class="toc-text">Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vuex"><span class="toc-number">3.8.</span> <span class="toc-text">vuex</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%85%E5%A4%87%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">必备知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#package-json"><span class="toc-number">4.1.</span> <span class="toc-text">package.json</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%80%81%E7%94%9F%E5%B8%B8%E8%B0%88"><span class="toc-number">5.</span> <span class="toc-text">老生常谈</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVVM%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="toc-number">5.1.</span> <span class="toc-text">MVVM的理解？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E4%BC%98%E7%82%B9%EF%BC%9F"><span class="toc-number">5.2.</span> <span class="toc-text">Vue的优点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="toc-number">5.3.</span> <span class="toc-text">Vue双向绑定原理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9F"><span class="toc-number">5.4.</span> <span class="toc-text">vue的生命周期？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue2%E5%92%8Cvue3%E7%9A%84diff%E7%AE%97%E6%B3%95"><span class="toc-number">5.5.</span> <span class="toc-text">vue2和vue3的diff算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC"><span class="toc-number">5.6.</span> <span class="toc-text">vue组件传值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue%E8%B7%AF%E7%94%B1"><span class="toc-number">5.7.</span> <span class="toc-text">vue路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-if%E5%92%8Cv-show"><span class="toc-number">5.8.</span> <span class="toc-text">v-if和v-show</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-if%E5%92%8Cv-for"><span class="toc-number">5.9.</span> <span class="toc-text">v-if和v-for</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nextTick"><span class="toc-number">5.10.</span> <span class="toc-text">nextTick</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">5.11.</span> <span class="toc-text">HTTP状态码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E8%BE%93%E5%85%A5url%E5%88%B0%E7%9C%8B%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%8C%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">5.12.</span> <span class="toc-text">从输入url到看到页面的过程，发生了什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GET%E3%80%81POST%E5%8C%BA%E5%88%AB"><span class="toc-number">5.13.</span> <span class="toc-text">GET、POST区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JS%E7%AF%87"><span class="toc-number">6.</span> <span class="toc-text">JS篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.1.</span> <span class="toc-text">JS的数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%ADjs%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.2.</span> <span class="toc-text">如何判断js的数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="toc-number">6.3.</span> <span class="toc-text">遍历对象属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E7%9B%B8%E7%AD%89"><span class="toc-number">6.4.</span> <span class="toc-text">判断两个对象是否相等</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#call%E3%80%81apply%E3%80%81bind"><span class="toc-number">6.5.</span> <span class="toc-text">call、apply、bind</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81"><span class="toc-number">6.6.</span> <span class="toc-text">防抖节流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EventLoop%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%9F"><span class="toc-number">6.7.</span> <span class="toc-text">EventLoop事件循环？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise"><span class="toc-number">6.8.</span> <span class="toc-text">Promise</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/13/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="云服务器相关"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202407131709165.png" onerror="this.onerror=null;this.src='/img/default_cover.jpg'" alt="云服务器相关"/></a><div class="content"><a class="title" href="/2024/07/13/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="云服务器相关">云服务器相关</a><time datetime="2024-07-12T16:00:00.000Z" title="发表于 2024-07-13 00:00:00">2024-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/14/%E8%B5%84%E6%BA%90%E9%9B%86%E5%90%88/" title="工具箱"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="/img/default_cover.jpg" onerror="this.onerror=null;this.src='/img/default_cover.jpg'" alt="工具箱"/></a><div class="content"><a class="title" href="/2024/06/14/%E8%B5%84%E6%BA%90%E9%9B%86%E5%90%88/" title="工具箱">工具箱</a><time datetime="2024-06-13T16:00:00.000Z" title="发表于 2024-06-14 00:00:00">2024-06-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/30/OpenId%E4%B8%8EUnionId/" title="OpenId与UnionId的区别"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="/img/default_cover.jpg" onerror="this.onerror=null;this.src='/img/default_cover.jpg'" alt="OpenId与UnionId的区别"/></a><div class="content"><a class="title" href="/2024/05/30/OpenId%E4%B8%8EUnionId/" title="OpenId与UnionId的区别">OpenId与UnionId的区别</a><time datetime="2024-05-29T16:00:00.000Z" title="发表于 2024-05-30 00:00:00">2024-05-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/30/crypto/" title="crypto-js"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/berniezhong/picture-bed/github/202405301031017.png" onerror="this.onerror=null;this.src='/img/default_cover.jpg'" alt="crypto-js"/></a><div class="content"><a class="title" href="/2024/05/30/crypto/" title="crypto-js">crypto-js</a><time datetime="2024-05-29T16:00:00.000Z" title="发表于 2024-05-30 00:00:00">2024-05-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/30/html%E5%B0%8F%E6%A1%88%E4%BE%8B/" title="Html小效果集合"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="/img/default_cover.jpg" onerror="this.onerror=null;this.src='/img/default_cover.jpg'" alt="Html小效果集合"/></a><div class="content"><a class="title" href="/2024/05/30/html%E5%B0%8F%E6%A1%88%E4%BE%8B/" title="Html小效果集合">Html小效果集合</a><time datetime="2024-05-29T16:00:00.000Z" title="发表于 2024-05-30 00:00:00">2024-05-30</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By 知瑾</div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">38</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">30</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">React</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://berniezwd.github.io/REACT_MARQUEE/" title="跑马灯"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="/img/project/marquee.png" alt="跑马灯"/><span class="back-menu-item-text">跑马灯</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">有趣</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://berniezwd.github.io/PeopleJS/" title="人潮汹涌"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/default_cover.jpg&quot;" data-lazy-src="/img/project/people.png" alt="人潮汹涌"/><span class="back-menu-item-text">人潮汹涌</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 即刻短文</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Html/" style="font-size: 0.88rem;">Html<sup>1</sup></a><a href="/tags/JavaScript/" style="font-size: 0.88rem;">JavaScript<sup>3</sup></a><a href="/tags/Jenkins%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" style="font-size: 0.88rem;">Jenkins自动化部署<sup>1</sup></a><a href="/tags/Nginx/" style="font-size: 0.88rem;">Nginx<sup>1</sup></a><a href="/tags/Pinia/" style="font-size: 0.88rem;">Pinia<sup>1</sup></a><a href="/tags/React/" style="font-size: 0.88rem;">React<sup>4</sup></a><a href="/tags/Redux/" style="font-size: 0.88rem;">Redux<sup>1</sup></a><a href="/tags/TypeScript/" style="font-size: 0.88rem;">TypeScript<sup>1</sup></a><a href="/tags/Vue/" style="font-size: 0.88rem;">Vue<sup>2</sup></a><a href="/tags/axios/" style="font-size: 0.88rem;">axios<sup>1</sup></a><a href="/tags/centOS/" style="font-size: 0.88rem;">centOS<sup>1</sup></a><a href="/tags/css/" style="font-size: 0.88rem;">css<sup>2</sup></a><a href="/tags/electron/" style="font-size: 0.88rem;">electron<sup>2</sup></a><a href="/tags/koa/" style="font-size: 0.88rem;">koa<sup>1</sup></a><a href="/tags/mysql/" style="font-size: 0.88rem;">mysql<sup>1</sup></a><a href="/tags/nestjs/" style="font-size: 0.88rem;">nestjs<sup>1</sup></a><a href="/tags/node/" style="font-size: 0.88rem;">node<sup>1</sup></a><a href="/tags/sass/" style="font-size: 0.88rem;">sass<sup>1</sup></a><a href="/tags/uniapp/" style="font-size: 0.88rem;">uniapp<sup>1</sup></a><a href="/tags/vim/" style="font-size: 0.88rem;">vim<sup>1</sup></a><a href="/tags/vite/" style="font-size: 0.88rem;">vite<sup>1</sup></a><a href="/tags/vue/" style="font-size: 0.88rem;">vue<sup>1</sup></a><a href="/tags/vue3/" style="font-size: 0.88rem;">vue3<sup>1</sup></a><a href="/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/" style="font-size: 0.88rem;">云服务<sup>1</sup></a><a href="/tags/%E5%8F%B3%E9%94%AEcmd/" style="font-size: 0.88rem;">右键cmd<sup>1</sup></a><a href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 0.88rem;">工具类<sup>1</sup></a><a href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" style="font-size: 0.88rem;">开发环境搭建<sup>1</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E8%B7%AF%E7%94%B1/" style="font-size: 0.88rem;">文件路由<sup>1</sup></a><a href="/tags/%E6%A0%87%E7%AD%BE%E5%A4%96%E6%8C%82/" style="font-size: 0.88rem;">标签外挂<sup>1</sup></a><a href="/tags/%E9%9B%B6%E6%95%A3/" style="font-size: 0.88rem;">零散<sup>1</sup></a><a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 0.88rem;">面试<sup>1</sup></a><a href="/tags/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA%E8%A7%84%E8%8C%83/" style="font-size: 0.88rem;">项目搭建规范<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><a id="switch-commentBarrage" href="javascript:anzhiyu.switchCommentBarrage();" title="开关弹幕"><i class="anzhiyufont anzhiyu-icon-danmu"></i></a><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="is-center" id="loading-database"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-pulse-icon"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script async src="/anzhiyu/random.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.cbd.int/mermaid@10.2.4/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  anzhiyu.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'Rx9TnE1k1TFznGsBX5hvBTg2-gzGzoHsz',
+      appKey: 'ReVHDww8qvNFAR7CALtta8S5',
+      avatar: 'mp',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.cbd.int/valine@1.5.1/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !true) {
+    if (true) anzhiyu.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="post"></div><script src="https://cdn.cbd.int/blueimp-md5@2.19.0/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=mp'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://Rx9TnE1k.api.lncldglobal.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'Rx9TnE1k1TFznGsBX5hvBTg2-gzGzoHsz',
+        "X-LC-Key": 'ReVHDww8qvNFAR7CALtta8S5',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
